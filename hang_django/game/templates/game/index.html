@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <link rel="stylesheet" href="{% static 'game/styles.css' %}"> <!-- Link to the CSS file -->
+</head>
+<body>
+    <div class="game-container">
+        <h1>Hangman Game</h1>
+        <div class="game-state">
+            <p id="word-state">{{ game_state.state }}</p>
+            <p id="remaining-chances">Remaining chances: {{ game_state.rem_chances }}</p>
+            <p id="game-status">{{ game_state.game_status }}</p>
+        </div>
+
+        <div id="alphabet-buttons" class="alphabet-buttons">
+            <!-- Alphabet buttons will be added dynamically here -->
+        </div>
+
+        <button id="give-in-button" class="action-button">Give In</button>
+        <button id="new-game-button" class="action-button">New Game</button>
+    </div>
+
+    <!-- CSRF Token for AJAX -->
+    <form method="POST" style="display: none;">
+        {% csrf_token %}
+    </form>
+
+    <!-- Pass the `game_state` as a JSON object into the JavaScript -->
+    <script type="application/json" id="game-state">
+        {{ game_state|json_script:"game_state" }}
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+    <script src="{% static 'game/game.js' %}"></script> <!-- Your custom game logic JS -->
+</body>
+</html>
